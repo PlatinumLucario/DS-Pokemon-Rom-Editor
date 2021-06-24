@@ -1,6 +1,6 @@
-# DS Pokemon Rom Editor
+# DS Pokémon Rom Editor
 
-Nomura's C# and WinForm DS Pokemon ROM Editor forked with lots of new features and bugfixes.
+Nomura's C# and WinForm DS Pokémon ROM Editor forked with lots of new features and bugfixes.
 
 ![Screenshot](aDSPRE_121.png)
 ![Screenshot](bDSPRE_121.png)
