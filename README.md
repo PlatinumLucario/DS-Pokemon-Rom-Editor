@@ -1,6 +1,16 @@
 # DS Pokémon Rom Editor
 
-Nomura's C# and WinForm DS Pokémon ROM Editor forked with lots of new features and bugfixes.
+## OpenTK 5.0 Preview 6 cross-platform branch
+This branch aims to replace the outdated Tao.OpenGl and Tao.Platform.Windows<br/>assemblies and to make DSPRE cross-platform in .NET 5.
+
+But in order to achieve this:
+- Code must be rewritten in a way that can render models correctly.
+- OpenTK's windowing functions need to replace Windows.Forms.
+- All HelixToolkit functions need to be replaced with OpenTK functions.
+
+
+
+Nomura's C# <s>and WinForm</s> DS Pokémon ROM Editor forked with lots of new features and bugfixes.
 
 ![Screenshot](aDSPRE_121.png)
 ![Screenshot](bDSPRE_121.png)
