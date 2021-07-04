@@ -1,16 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E3C66521-EE89-4406-92C4-FC1D40DC4200}</ProjectGuid>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>DSPRE</RootNamespace>
-    <AssemblyName>DSPRE</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -26,31 +17,11 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>app.ico</ApplicationIcon>
@@ -60,27 +31,33 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\HelixToolkit.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Desktop\sdsme\Map_Editor\OpenTK.dll</HintPath>
+    <Reference Include="OpenTK.Compute">
+      <HintPath>Resources\DLLs\OpenTK.Compute.dll</HintPath>
     </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    <Reference Include="OpenTK.Core">
+      <HintPath>Resources\DLLs\OpenTK.Core.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <Reference Include="OpenTK.Graphics">
+      <HintPath>Resources\DLLs\OpenTK.Graphics.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.Input">
+      <HintPath>Resources\DLLs\OpenTK.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.Mathematics">
+      <HintPath>Resources\DLLs\OpenTK.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.OpenAL">
+      <HintPath>Resources\DLLs\OpenTK.OpenAL.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.Windowing.Common">
+      <HintPath>Resources\DLLs\OpenTK.Windowing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.Windowing.Desktop">
+      <HintPath>Resources\DLLs\OpenTK.Windowing.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.Windowing.GraphicsLibraryFramework">
+      <HintPath>Resources\DLLs\OpenTK.Windowing.GraphicsLibraryFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Desktop\sdsme\Map_Editor\Tao.OpenGl.dll</HintPath>
@@ -89,289 +66,19 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Desktop\sdsme\Map_Editor\Tao.Platform.Windows.dll</HintPath>
     </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AB.cs" />
-    <Compile Include="GameCamera.cs" />
-    <Compile Include="Resources\ROMToolboxDB\ToolboxDB.cs" />
-    <Compile Include="ROMFiles\AreaData.cs" />
-    <Compile Include="DSUtils.cs" />
-    <Compile Include="Resources\CommandsDatabase.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Resources\CommandsDatabase.Designer.cs">
-      <DependentUpon>CommandsDatabase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\PokeDatabase.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\ROMToolboxDB\BDHCAMPatchDB.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BDHCAMPatchDB.resx</DependentUpon>
-    </Compile>
-    <Compile Include="HeaderSearch.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HeaderSearch.Designer.cs">
-      <DependentUpon>HeaderSearch.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\TextDatabase.cs" />
-    <Compile Include="ROMFiles\RomFile.cs" />
-    <Compile Include="ROMFiles\ScriptAction.cs" />
-    <Compile Include="ROMToolboxDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ROMToolboxDialog.Designer.cs">
-      <DependentUpon>ROMToolboxDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BuildingEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BuildingEditor.Designer.cs">
-      <DependentUpon>BuildingEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CameraView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CameraView.Designer.cs">
-      <DependentUpon>CameraView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="RomInfo.cs" />
-    <Compile Include="ROMFiles\ScriptCommand.cs" />
-    <Compile Include="SpawnEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SpawnEditor.Designer.cs">
-      <DependentUpon>SpawnEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WildEditorHGSS.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WildEditorHGSS.Designer.cs">
-      <DependentUpon>WildEditorHGSS.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WildEditorDPPt.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WildEditorDPPt.Designer.cs">
-      <DependentUpon>WildEditorDPPt.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ROMFiles\EncounterFile.cs" />
-    <Compile Include="ROMFiles\TextArchive.cs" />
-    <Compile Include="ROMFiles\MapHeader.cs" />
-    <Compile Include="RichTextBoxExt.cs" />
-    <Compile Include="ROMFiles\ScriptFile.cs" />
-    <Compile Include="ROMFiles\GameMatrix.cs" />
-    <Compile Include="ROMFiles\EventFile.cs" />
-    <Compile Include="DataGridViewDoubleBuffered.cs">
+    <Compile Update="DataGridViewDoubleBuffered.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="LibNDSFormats\bytearrayoutputstream.cs" />
-    <Compile Include="LibNDSFormats\convertir.cs" />
-    <Compile Include="LibNDSFormats\EndianBinaryReader.cs" />
-    <Compile Include="LibNDSFormats\Export3DTools\Face.cs" />
-    <Compile Include="LibNDSFormats\Export3DTools\Group.cs" />
-    <Compile Include="LibNDSFormats\Export3DTools\OBJWriter.cs" />
-    <Compile Include="LibNDSFormats\Export3DTools\Polygon.cs" />
-    <Compile Include="LibNDSFormats\Export3DTools\PolygonType.cs" />
-    <Compile Include="LibNDSFormats\Export3DTools\Quad.cs" />
-    <Compile Include="LibNDSFormats\Export3DTools\QuadStrip.cs" />
-    <Compile Include="LibNDSFormats\Export3DTools\Triangle.cs" />
-    <Compile Include="LibNDSFormats\Export3DTools\TriangleStrip.cs" />
-    <Compile Include="LibNDSFormats\Helper.cs" />
-    <Compile Include="LibNDSFormats\nclr_e.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LibNDSFormats\NSBCA\NSBCA.cs" />
-    <Compile Include="LibNDSFormats\NSBCA\NSBCALoader.cs" />
-    <Compile Include="LibNDSFormats\NSBMD\MTX44.cs" />
-    <Compile Include="LibNDSFormats\NSBMD\NSBMD.cs" />
-    <Compile Include="LibNDSFormats\NSBMD\NSBMDAnimation.cs" />
-    <Compile Include="LibNDSFormats\NSBMD\NSBMDGlRenderer.cs" />
-    <Compile Include="LibNDSFormats\NSBMD\NSBMDLoader.cs" />
-    <Compile Include="LibNDSFormats\NSBMD\NSBMDMaterial.cs" />
-    <Compile Include="LibNDSFormats\NSBMD\NSBMDModel.cs" />
-    <Compile Include="LibNDSFormats\NSBMD\NSBMDObject.cs" />
-    <Compile Include="LibNDSFormats\NSBMD\NSBMDPalette.cs" />
-    <Compile Include="LibNDSFormats\NSBMD\NSBMDPolygon.cs" />
-    <Compile Include="LibNDSFormats\NSBMD\NSBMDTexture.cs" />
-    <Compile Include="LibNDSFormats\NSBTA.cs" />
-    <Compile Include="LibNDSFormats\NSBTP.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\bytearrayinputstream.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\directory.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\externalfilesystemsource.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\File.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\Filepallete.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\filesystem2.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\filesystemsource.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\image3d.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\image3dformat5.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\imageindexer.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\imagetexeler.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\imagetiler.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\inlinefile.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\nsbmetileset.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\nsbtx.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\NSBTXLoader.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\palettedimage.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\pallete2.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\pixelpalletedimage.cs" />
-    <Compile Include="LibNDSFormats\NSBTX\Rom.cs" />
-    <Compile Include="LibNDSFormats\StreamExt.cs" />
-    <Compile Include="LibNDSFormats\Utils.cs" />
-    <Compile Include="Main Window.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Main Window.Designer.cs">
-      <DependentUpon>Main Window.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Narc.cs" />
-    <Compile Include="ROMFiles\MapFile.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\writeText.Designer.cs" />
-    <EmbeddedResource Include="HeaderSearch.resx">
-      <DependentUpon>HeaderSearch.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\ROMToolboxDB\BDHCAMPatchDB.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>BDHCAMPatchDB.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\ROMToolboxDB\CustomScrCmdDB.resx" />
-    <EmbeddedResource Include="Resources\CommandsDatabase.resx">
-      <DependentUpon>CommandsDatabase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ROMToolboxDialog.resx">
-      <DependentUpon>ROMToolboxDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BuildingEditor.resx">
-      <DependentUpon>BuildingEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CameraView.resx">
-      <DependentUpon>CameraView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SpawnEditor.resx">
-      <DependentUpon>SpawnEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WildEditorHGSS.resx">
-      <DependentUpon>WildEditorHGSS.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Main Window.resx">
-      <DependentUpon>Main Window.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\writeText.resx" />
-    <EmbeddedResource Include="WildEditorDPPt.resx">
-      <DependentUpon>WildEditorDPPt.cs</DependentUpon>
-    </EmbeddedResource>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\ROMToolboxDB\CPUE_cam.bin" />
-    <None Include="Resources\ROMToolboxDB\CPUS_cam.bin" />
-    <None Include="Resources\ROMToolboxDB\IPGE_cam.bin" />
-    <None Include="Resources\ROMToolboxDB\IPGS_cam.bin" />
-    <None Include="Resources\ROMToolboxDB\IPKE_cam.bin" />
-    <None Include="Resources\ROMToolboxDB\IPKS_cam.bin" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Graphics\Program Icons\open_file.png" />
-    <None Include="Resources\Graphics\Program Icons\save_rom.png" />
-    <None Include="Resources\Graphics\Program Icons\map_editor.png" />
-    <None Include="Resources\Graphics\Program Icons\arrowdown.png" />
-    <None Include="Resources\Graphics\Program Icons\arrowleft.png" />
-    <None Include="Resources\Graphics\Program Icons\arrowright.png" />
-    <None Include="Resources\Graphics\Program Icons\arrowup.png" />
-    <None Include="Resources\Graphics\Event Icons\overworld.png" />
-    <None Include="Resources\Graphics\Event Icons\sign.png" />
-    <None Include="Resources\Graphics\Event Icons\trigger.png" />
-    <None Include="Resources\Graphics\Event Icons\warp.png" />
-    <None Include="Resources\Graphics\Event Icons\brown_sign.png" />
-    <None Include="Resources\Graphics\Event Icons\gray_sign.png" />
-    <None Include="Resources\Graphics\Event Icons\red_sign.png" />
-    <None Include="Resources\Graphics\Event Icons\route_sign.png" />
-    <None Include="Resources\Graphics\Event Icons\dawn_platinum.png" />
-    <None Include="Resources\Graphics\Event Icons\dppt_suitcase.png" />
-    <None Include="Resources\Graphics\Event Icons\blue_sign.png" />
-    <None Include="Resources\Graphics\Area Icons\hgsscave.png" />
-    <None Include="Resources\Graphics\Area Icons\hgssfield.png" />
-    <None Include="Resources\Graphics\Area Icons\hgssforest.png" />
-    <None Include="Resources\Graphics\Area Icons\hgssgray.png" />
-    <None Include="Resources\Graphics\Area Icons\hgsstown.png" />
-    <None Include="Resources\Graphics\Area Icons\hgsswall.png" />
-    <None Include="Resources\Graphics\Area Icons\hgsswater.png" />
-    <None Include="Resources\Graphics\Area Icons\hgsswood.png" />
-    <None Include="Resources\Graphics\Weather\HGSS\hgssdark.png" />
-    <None Include="Resources\Graphics\Weather\HGSS\hgssfog.png" />
-    <None Include="Resources\Graphics\Weather\HGSS\hgsshail.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\dpblizzard.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\dpcloudy.png" />
-    <None Include="Resources\Graphics\Weather\DPPt\dpdark.png" />
-    <None Include="Resources\Graphics\Weather\DPPt\dpdiamondsnow.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\dpfog.png" />
-    <None Include="Resources\Graphics\Weather\DPPt\dphail.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\dpheavyrain.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\dplightning.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\dplightsandstorm.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\dpnormal.png" />
-    <None Include="Resources\Graphics\Weather\DPPt\dprain.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\dprocksascending.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\dpsandfall.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\dpsandstorm.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\dpsnowslow.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\dpthunderstorm.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\ptblizzard.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\ptdark.png" />
-    <None Include="Resources\Graphics\Weather\DPPt\ptdiamondsnow.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\pthail.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\ptheavyrain.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\ptnormal.png" />
-    <None Include="Resources\Graphics\Weather\DPPt\ptrain.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\ptsandfall.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\ptsandstorm.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\ptsnowslow.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\ptthunderstorm.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\ptcloudy.png" />
-    <None Include="Resources\Graphics\Weather\DPPt\ptfog.png" />
-    <None Include="Resources\Graphics\Weather\DPPt\ptforestweather.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\ptlightning.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\ptlightsandstorm.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\ptrocksascending.gif" />
-    <None Include="Resources\Graphics\Weather\DPPt\ptspotlight.gif" />
-    <None Include="Resources\Graphics\Weather\HGSS\hgssdark2.png" />
     <Content Include="app.ico" />
-    <None Include="Resources\Graphics\Program Icons\exploreKit.Image.png" />
-    <None Include="Resources\Graphics\Program Icons\goToWarp.png" />
-    <None Include="Resources\Graphics\Program Icons\goToTrigger.png" />
-    <None Include="Resources\Graphics\Program Icons\warpGo.png" />
-    <None Include="Resources\Graphics\Program Icons\goToSpawnable.png" />
-    <None Include="Resources\Graphics\Program Icons\goToOW.png" />
-    <None Include="Resources\Graphics\Program Icons\LeftClick.png" />
-    <None Include="Resources\Graphics\Program Icons\WheelClick.png" />
-    <None Include="Resources\Graphics\Program Icons\RightClick.png" />
-    <None Include="Resources\Graphics\Program Icons\unpackAllIcon.png" />
-    <None Include="Resources\Graphics\Program Icons\SurfIcon.png" />
     <Content Include="Resources\Graphics\Camera Angles\HGSS\hgsscamera00.png" />
     <Content Include="Resources\Graphics\Camera Angles\HGSS\hgsscamera01.png" />
     <Content Include="Resources\Graphics\Camera Angles\HGSS\hgsscamera02.png" />
@@ -388,35 +95,9 @@
     <Content Include="Resources\Graphics\Camera Angles\HGSS\hgsscamera13.png" />
     <Content Include="Resources\Graphics\Camera Angles\HGSS\hgsscamera14.png" />
     <Content Include="Resources\Graphics\Camera Angles\HGSS\hgsscamera15.png" />
-    <None Include="Resources\Graphics\Weather\HGSS\hgssrain.gif" />
-    <None Include="Resources\Graphics\Weather\HGSS\hgssdiamond.gif" />
-    <None Include="Resources\Graphics\Weather\HGSS\hgsssnow.gif" />
-    <None Include="Resources\Graphics\Weather\HGSS\hgssArcade.gif" />
-    <None Include="Resources\Graphics\Weather\HGSS\hgssnormal.gif" />
-    <None Include="Resources\Graphics\Program Icons\copyIcon.png" />
-    <None Include="Resources\Graphics\Program Icons\pasteIcon.png" />
-    <None Include="Resources\Graphics\Weather\HGSS\hgssfog.gif" />
-    <None Include="Resources\Graphics\Program Icons\exportArrow.png" />
-    <None Include="Resources\Graphics\Program Icons\importArrow.png" />
-    <None Include="Resources\Graphics\Program Icons\unpackBuildingNarcsIcon.png" />
-    <None Include="Resources\Graphics\Program Icons\deleteIcon.png" />
-    <None Include="Resources\Graphics\Event Icons\overworldUnreadable.png" />
     <Content Include="Resources\Graphics\Program Icons\addIcon.png" />
-    <None Include="Resources\Graphics\Program Icons\copyIcon_small.png" />
-    <None Include="Resources\Graphics\Program Icons\checkmark.png" />
-    <None Include="Resources\Graphics\Program Icons\dawnSpawn.png" />
-    <None Include="Resources\Graphics\Program Icons\addTextureToNSBMD.png" />
-    <None Include="Resources\Graphics\Program Icons\destroyLevelScript.png" />
     <Content Include="Resources\Graphics\Program Icons\loadColorTable.png" />
-    <None Include="Resources\Graphics\Program Icons\removeTextureNSBMD.png" />
     <Content Include="Resources\Graphics\Program Icons\resetColorTable.png" />
-    <None Include="Resources\Graphics\Program Icons\wideLensImage.png" />
-    <None Include="Resources\Graphics\Program Icons\wideLensImageTransp.png" />
-    <None Include="Resources\Graphics\Program Icons\scriptDBIcon.png" />
-    <None Include="Resources\Graphics\Program Icons\resetIcon.png" />
-    <None Include="Resources\Graphics\Program Icons\spawnCoordsMatrixeditorIcon.png" />
-    <None Include="Resources\Graphics\Program Icons\resetListIcon.png" />
-    <None Include="Resources\Graphics\Program Icons\saveTextureFromNSBMD.png" />
     <Content Include="Resources\Graphics\Weather\DPPt\ptblueish.png" />
     <Content Include="Resources\Graphics\Weather\DPPt\ptdarkfog.png" />
     <Content Include="Resources\Graphics\Weather\DPPt\ptdim.png" />
@@ -424,8 +105,6 @@
     <Content Include="Resources\Graphics\Weather\DPPt\ptheavyfog.png" />
     <Content Include="Resources\Graphics\Weather\DPPt\ptlightfog.png" />
     <Content Include="Resources\Graphics\Weather\DPPt\ptredish.png" />
-    <None Include="Resources\wrenchIcon.png" />
-    <None Include="Resources\selectBldWithMouse.png" />
     <Content Include="Tools\blz.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -433,7 +112,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\DLLs\HelixToolkit.dll" />
-    <Content Include="Resources\DLLs\OpenTK.dll" />
     <Content Include="Resources\DLLs\Tao.OpenGl.dll" />
     <Content Include="Resources\DLLs\Tao.Platform.Windows.dll" />
   </ItemGroup>
@@ -452,5 +130,38 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Resources\MovementNamesW.Designer.cs" />
+    <Compile Remove="Resources\ScriptsV\ScriptNamesB2W2.Designer.cs" />
+    <Compile Remove="Resources\ScriptsV\ScriptNamesB2W2J.Designer.cs" />
+    <Compile Remove="Resources\ScriptsV\ScriptNamesBW.Designer.cs" />
+    <Compile Remove="Resources\ScriptsV\ScriptNamesBWJ.Designer.cs" />
+    <Compile Remove="Resources\ScriptsV\ScriptNamesWBW.Designer.cs" />
+    <Compile Remove="Resources\ScriptsV\ScriptNamesWBWJ.Designer.cs" />
+    <Compile Remove="Resources\ScriptsV\ScriptsB2W2.Designer.cs" />
+    <Compile Remove="Resources\ScriptsV\ScriptsB2W2J.Designer.cs" />
+    <Compile Remove="Resources\ScriptsV\ScriptsBW.Designer.cs" />
+    <Compile Remove="Resources\ScriptsV\ScriptsBWJ.Designer.cs" />
+    <EmbeddedResource Remove="Resources\MovementNamesW.resx" />
+    <EmbeddedResource Remove="Resources\ScriptsV\ScriptNamesB2W2.resx" />
+    <EmbeddedResource Remove="Resources\ScriptsV\ScriptNamesB2W2J.resx" />
+    <EmbeddedResource Remove="Resources\ScriptsV\ScriptNamesBW.resx" />
+    <EmbeddedResource Remove="Resources\ScriptsV\ScriptNamesBWJ.resx" />
+    <EmbeddedResource Remove="Resources\ScriptsV\ScriptNamesWBW.resx" />
+    <EmbeddedResource Remove="Resources\ScriptsV\ScriptNamesWBWJ.resx" />
+    <EmbeddedResource Remove="Resources\ScriptsV\ScriptsB2W2.resx" />
+    <EmbeddedResource Remove="Resources\ScriptsV\ScriptsB2W2J.resx" />
+    <EmbeddedResource Remove="Resources\ScriptsV\ScriptsBW.resx" />
+    <EmbeddedResource Remove="Resources\ScriptsV\ScriptsBWJ.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
 </Project>

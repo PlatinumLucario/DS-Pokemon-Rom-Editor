@@ -87,8 +87,8 @@ namespace LibNDSFormats.NSBMD
                     {
 
                     }
-                }*/
-                int t7 = 0;
+                }
+                int t7 = 0;*/
                 for (var j = 0; j < models[i].Polygons.Count - 1; j++) {
                     for (int k = 0; k < models[i].Textures.Count; k++) {
                         if (models[i].Textures[k].texmatid.Contains((uint)models[i].Polygons[j].MatId)) {
@@ -194,7 +194,7 @@ namespace LibNDSFormats.NSBMD
                             }
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception /*e*/)
                     {
 
                     }
@@ -284,7 +284,7 @@ namespace LibNDSFormats.NSBMD
             {
                 int c = reader.ReadByte();
                 Console.WriteLine(BitConverter.ToString(new byte[] { (byte)c }, 0, 1));
-                int d, e, f, g, h, i, j, k;
+                int d, e, f, g, h/*, i, j, k*/;
                 switch (c)
                 {
                     ////////////////////////////////////////////

@@ -8,7 +8,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
-using OpenTK;
+using OpenTK.Mathematics;
 using HelixToolkit;
 using MKDS_Course_Editor.Export3DTools;
 
@@ -695,13 +695,13 @@ namespace LibNDSFormats.NSBMD {
 								y = Sign(y, 16);
 								int z = Utils.Read2BytesAsInt16(ca.JAC[selectedanim].RotationData, (((int)ca.JAC[selectedanim].ObjInfo[i].rotate[0]) & 0x7fff) * 10 + 6);
 								z = Sign(z, 16);
-								OpenTK.Matrix4 X = OpenTK.Matrix4.CreateRotationX((float)x / 131072F);//((float)x * (float)Math.PI) / 32768F);
-								OpenTK.Matrix4 Y = OpenTK.Matrix4.CreateRotationY((float)y / 131072F);//((float)y * (float)Math.PI) / 32768F);
-								OpenTK.Matrix4 Z = OpenTK.Matrix4.CreateRotationZ((float)z / 131072F);//((float)z * (float)Math.PI) / 32768F);
-								OpenTK.Matrix4 full = OpenTK.Matrix4.Identity;
-								full = OpenTK.Matrix4.Mult(full, X);
-								full = OpenTK.Matrix4.Mult(full, Y);
-								full = OpenTK.Matrix4.Mult(full, Z);
+								Matrix4 X = Matrix4.CreateRotationX((float)x / 131072F);//((float)x * (float)Math.PI) / 32768F);
+								Matrix4 Y = Matrix4.CreateRotationY((float)y / 131072F);//((float)y * (float)Math.PI) / 32768F);
+								Matrix4 Z = Matrix4.CreateRotationZ((float)z / 131072F);//((float)z * (float)Math.PI) / 32768F);
+								Matrix4 full = Matrix4.Identity;
+								full = Matrix4.Mult(full, X);
+								full = Matrix4.Mult(full, Y);
+								full = Matrix4.Mult(full, Z);
 							}
 						} else if (ca.JAC[selectedanim].ObjInfo[i].rotate_keyframes[0].Count != 0) {
 							//Gl.glMultMatrixf(Nsbmd.mtxPivot(new float[]{ca.JAC[0].ObjInfo[i].rotate_keyframes[1][R[i]],ca.JAC[0].ObjInfo[i].rotate_keyframes[0][R[i]]}, obj.Pivot, obj.Neg));
@@ -724,13 +724,13 @@ namespace LibNDSFormats.NSBMD {
 								y = Sign(y, 16);
 								int z = Utils.Read2BytesAsInt16(ca.JAC[selectedanim].RotationData, (int)ca.JAC[selectedanim].ObjInfo[i].rotate_keyframes[0][R[i]] * 10 + 6);
 								z = Sign(z, 16);
-								OpenTK.Matrix4 X = OpenTK.Matrix4.CreateRotationX((float)x / 131072F);//((float)x * (float)Math.PI) / 32768F);
-								OpenTK.Matrix4 Y = OpenTK.Matrix4.CreateRotationY((float)y / 131072F);//((float)y * (float)Math.PI) / 32768F);
-								OpenTK.Matrix4 Z = OpenTK.Matrix4.CreateRotationZ((float)z / 131072F);//((float)z * (float)Math.PI) / 32768F);
-								OpenTK.Matrix4 full = OpenTK.Matrix4.Identity;
-								full = OpenTK.Matrix4.Mult(full, X);
-								full = OpenTK.Matrix4.Mult(full, Y);
-								full = OpenTK.Matrix4.Mult(full, Z);
+								Matrix4 X = Matrix4.CreateRotationX((float)x / 131072F);//((float)x * (float)Math.PI) / 32768F);
+								Matrix4 Y = Matrix4.CreateRotationY((float)y / 131072F);//((float)y * (float)Math.PI) / 32768F);
+								Matrix4 Z = Matrix4.CreateRotationZ((float)z / 131072F);//((float)z * (float)Math.PI) / 32768F);
+								Matrix4 full = Matrix4.Identity;
+								full = Matrix4.Mult(full, X);
+								full = Matrix4.Mult(full, Y);
+								full = Matrix4.Mult(full, Z);
 								/*int x = (param) & 0xFF;
 								if ((x & 0x200) != 0) x |= -256;
 								int y = (param >> 8) & 0xFF;

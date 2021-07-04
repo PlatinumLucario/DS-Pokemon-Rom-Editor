@@ -25,7 +25,7 @@ namespace NSMBe4.DSFileSystem
     public class File : IComparable
     {
         public bool isSystemFile;
-        byte[] file2;
+        //byte[] file2;
         protected string nameP;
         public string name { get { return nameP; } }
 

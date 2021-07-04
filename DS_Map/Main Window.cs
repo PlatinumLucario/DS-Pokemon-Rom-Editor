@@ -7,16 +7,71 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 using System.Resources;
 using System.Reflection;
 using NarcAPI;
-using Tao.OpenGl;
 using LibNDSFormats.NSBMD;
 using LibNDSFormats.NSBTX;
 using DSPRE.Resources;
 using DSPRE.ROMFiles;
 using static DSPRE.RomInfo;
+
+/*
+
+  Upon upgrading this project to .NET 5, the following components of DSPRE are outdated and depreciated and need to replaced, these include:
+    * Tao.OpenGl.dll
+    * Tao.Platform.Windows.dll - Both Tao.OpenGl and Tao.Platform.Windows date back to 2006-2007 when it used to be called Tao Framework, they're THAT ancient lol
+    * OpenTK.dll - This one is from 2010, and is version 1.0.278.44921, newer versions don't use one OpenTK.dll anymore, they use multiple .dlls
+    * HelixToolkit.dll - Even though HelixToolkit libraries are actively developed, they use the DirectX pipeline, which is exclusive to Windows and NOT cross-platform
+
+  These will be replaced with:
+    * OpenTK.Compute.dll
+    * OpenTK.Core.dll
+    * OpenTK.Graphics.dll
+    * OpenTK.Input.dll
+    * OpenTK.Mathematics.dll
+    * OpenTK.Windowing.Common.dll
+    * OpenTK.Windowing.Desktop.dll
+    * OpenTK.Windowing.GraphicsLibraryFramework.dll
+
+  Once all code has been updated with compatible newer OpenTK classes and namespaces, Tao.OpenGl, Tao.Platform.Windows and 2010 OpenTK will be removed
+
+*/
+
+/* These are namespaces utilizing the latest version of the cross-platform OpenTK, as the old one is deprecated */
+//using OpenTK.Graphics;
+//using OpenTK.Graphics.OpenGL;
+//using OpenTK.Graphics.OpenGL.Compatibility;
+//using OpenTK.Input;
+//using OpenTK.Mathematics;
+//using OpenTK.Windowing.GraphicsLibraryFramework;
+
+/* Deprecated namespaces */
+using System.Windows.Forms;
+using Tao.OpenGl;
+
+/*
+
+    These classes are defined with the same class name as windows forms,
+    to make all the classes with the same name use cross-platform OpenTK instead of Windows Forms
+
+    Todo:
+    * Implement MouseEventArgs using OpenTK.Input
+    * Change outdated code to rely on OpenTK libraries instead of HelixToolkit, Tao.OpenGl and Tao.Platform.Windows
+    * Implement functions from OpenTK.Windowing.Common, OpenTK.Windowing.Desktop and OpenTK.Windowing.GraphicsLibraryFramework to replace Windows.Forms
+    * Implement the modern OpenTK functions in a way that doesn't break rendering functionality, see #region Map Editor Tab Subroutines for more info.
+
+ */
+// using MouseEventArgs = OpenTK.Input.MouseEventArgs;
+
+
+/*
+
+To make DSPRE Cross-Plaform on .NET 5, we need to use OpenTK.Windowing functions for the UI. Windows.Forms is incompatible with other platforms.
+
+Also, HelixToolkit is only compatible with WPF, but OpenTK has alternative classes and variables that can replace the ones used by HelixToolkit
+
+*/
 
 namespace DSPRE {
     public partial class MainProgram : Form {
@@ -2441,7 +2496,21 @@ namespace DSPRE {
         public Font textFont;
         #endregion
 
-        #region Subroutines
+        #region Map Editor Tab Subroutines
+        /*
+        These subroutines are tied directly to rendering the 3D models in the Map Model tab.
+
+        All subroutines in this region currently rely on outdated Tao.OpenGl functions,
+        which operate much differently from current modern OpenTK functions.
+
+        Please update or rewrite all code in this region in a way that works with current
+        OpenTK functions and doesn't break functionality.
+
+        Davin (aka Platinum Lucario) attempted to implement code that looked similar to
+        the Tao.OpenGl functions, but it's a clear example of how to NOT implement
+        modern OpenTK functions. The code that is commented out in this region, is what
+        he attemped to rewrite and failed to work.
+        */
         private void FillBuildingsBox() {
             buildingsListBox.Items.Clear();
 
@@ -2491,10 +2560,13 @@ namespace DSPRE {
             /* Render the map model */
             mapRenderer.Model = mapFile.mapModel.models[0];
             Gl.glScalef(mapFile.mapModel.models[0].modelScale / 64, mapFile.mapModel.models[0].modelScale / 64, mapFile.mapModel.models[0].modelScale / 64);
+            //GL.Scalef(mapFile.mapModel.models[0].modelScale / 64, mapFile.mapModel.models[0].modelScale / 64, mapFile.mapModel.models[0].modelScale / 64);
 
             /* Determine if map textures must be rendered */
             if (!mapTexturesON) Gl.glDisable(Gl.GL_TEXTURE_2D);
             else Gl.glEnable(Gl.GL_TEXTURE_2D);
+            //if (!mapTexturesON) GL.Disable(EnableCap.Texture2d);
+            //else GL.Enable(EnableCap.Texture2d);
 
             mapRenderer.RenderModel("", ani, aniframeS, aniframeS, aniframeS, aniframeS, aniframeS, ca, false, -1, 0.0f, 0.0f, dist, elev, ang, true, tp, mapFile.mapModel); // Render map model
 
@@ -2502,6 +2574,8 @@ namespace DSPRE {
                 if (buildingTexturesON)
                     Gl.glEnable(Gl.GL_TEXTURE_2D);
                 else Gl.glDisable(Gl.GL_TEXTURE_2D);
+                //GL.Enable(EnableCap.Texture2d);
+                //else GL.Disable(EnableCap.Texture2d);
 
                 for (int i = 0; i < mapFile.buildings.Count; i++) {
                     buildingsRenderer.Model = mapFile.buildings[i].NSBMDFile.models[0];
@@ -2520,6 +2594,8 @@ namespace DSPRE {
 
             Gl.glScalef(scaleFactor * building.width, scaleFactor * building.height, scaleFactor * building.length);
             Gl.glTranslatef(fullXcoord * translateFactor / building.width, fullYcoord * translateFactor / building.height, fullZcoord * translateFactor / building.length);
+            //GL.Scalef(scaleFactor * building.width, scaleFactor * building.height, scaleFactor * building.length);
+            //GL.Translatef(fullXcoord * translateFactor / building.width, fullYcoord * translateFactor / building.height, fullZcoord * translateFactor / building.length);
         }
         private void SetupRenderer(float ang, float dist, float elev, float perspective, int width, int height) {
             Gl.glEnable(Gl.GL_RESCALE_NORMAL);
@@ -2534,6 +2610,20 @@ namespace DSPRE {
             Gl.glEnable(Gl.GL_BLEND);
             Gl.glAlphaFunc(Gl.GL_GREATER, 0f);
             Gl.glClearColor(51f / 255f, 51f / 255f, 51f / 255f, 1f);
+            /*
+            GL.Enable(EnableCap.RescaleNormalExt);
+            GL.Enable(EnableCap.ColorMaterial);
+            GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Normalize);
+            GL.Disable(EnableCap.CullFace);
+            GL.FrontFace(FrontFaceDirection.Ccw);
+            GL.ClearDepth(1);
+            GL.Enable(EnableCap.AlphaTest);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            GL.Enable(EnableCap.Blend);
+            GL.AlphaFunc(AlphaFunction.Greater, 0f);
+            GL.ClearColor(51f / 255f, 51f / 255f, 51f / 255f, 1f);
+            */
             float aspect;
             Gl.glViewport(0, 0, width, height);
             aspect = mapOpenGlControl.Width / mapOpenGlControl.Height;//(vp[2] - vp[0]) / (vp[3] - vp[1]);
@@ -2557,6 +2647,30 @@ namespace DSPRE {
             Gl.glColor3f(1.0f, 1.0f, 1.0f);
             Gl.glDepthMask(Gl.GL_TRUE);
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
+            /*
+            GL.Viewport(0, 0, width, height);
+            aspect = mapOpenGlControl.Width / mapOpenGlControl.Height;//(vp[2] - vp[0]) / (vp[3] - vp[1]);
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+            Matrix4.CreatePerspectiveFieldOfView(perspective, aspect, 0.02f, 1000000.0f);//0.02f, 32.0f);
+            GL.Translatef(0, 0, -dist);
+            GL.Rotatef(elev, 1, 0, 0);
+            GL.Rotatef(ang, 0, 1, 0);
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
+            GL.Translatef(0, 0, -dist);
+            GL.Rotatef(elev, 1, 0, 0);
+            GL.Rotatef(-ang, 0, 1, 0);
+            GL.GetnUniformf(ProgramHandle.Zero, (int)UniformPName.UniformType, new float[] { 1, 1, 1, 0 });
+            GL.GetnUniformf(ProgramHandle.Zero, (int)UniformPName.UniformType, new float[] { 1, 1, 1, 0 });
+            GL.GetnUniformf(ProgramHandle.Zero, (int)UniformPName.UniformType, new float[] { 1, 1, 1, 0 });
+            GL.GetnUniformf(ProgramHandle.Zero, (int)UniformPName.UniformType, new float[] { 1, 1, 1, 0 });
+            GL.LoadIdentity();
+            GL.BindTexture(TextureTarget.Texture2d, (TextureHandle)0);
+            GL.Color3f(1.0f, 1.0f, 1.0f);
+            GL.DepthMask(true);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            */
         }
         #endregion
         private void SetupMapEditor() {
@@ -2987,8 +3101,10 @@ namespace DSPRE {
         private void wireframeCheckBox_CheckedChanged(object sender, EventArgs e) {
             if (wireframeCheckBox.Checked) {
                 Gl.glPolygonMode(Gl.GL_FRONT_AND_BACK, Gl.GL_LINE);
+                //GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
             } else {
                 Gl.glPolygonMode(Gl.GL_FRONT_AND_BACK, Gl.GL_FILL);
+                //GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
             }
 
             RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, ang, dist, elev, perspective, mapOpenGlControl.Width, mapOpenGlControl.Height, mapTexturesOn, showBuildingTextures);
@@ -3207,6 +3323,7 @@ namespace DSPRE {
             Bitmap bmp = new Bitmap(width, height);
             System.Drawing.Imaging.BitmapData data = bmp.LockBits(new Rectangle(0, 0, width, height), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             Gl.glReadPixels(0, 0, width, height, Gl.GL_BGR, Gl.GL_UNSIGNED_BYTE, data.Scan0);
+            //GL.ReadPixels(0, 0, width, height, PixelFormat.Bgr, PixelType.UnsignedByte, data.Scan0);
             bmp.UnlockBits(data);
             bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
             return bmp;

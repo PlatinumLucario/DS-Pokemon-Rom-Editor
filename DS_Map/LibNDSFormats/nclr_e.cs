@@ -12,9 +12,9 @@ namespace MKDS_Course_Editor
 {
     public partial class nclr_e : Form
     {
-        int r = 255;
+        /*int r = 255;
         int g = 255;
-        int b = 255;
+        int b = 255;*/
         List<Color> colors = new List<Color>();
         bool bpp8_ = false;
         uint unknown1;

@@ -9,7 +9,8 @@ namespace DSPRE
     static class Program
     {
         /// <summary>
-        /// Punto di ingresso principale dell'applicazione.
+        /// It: Punto di ingresso principale dell'applicazione.
+        /// En: Main entry point of the application. 
         /// </summary>
         [STAThread]
         static void Main()
