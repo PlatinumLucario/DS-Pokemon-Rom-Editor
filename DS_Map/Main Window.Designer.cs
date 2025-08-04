@@ -204,7 +204,7 @@
             this.saveMapButton = new System.Windows.Forms.Button();
             this.mapScreenshotButton = new System.Windows.Forms.Button();
             this.mapRenderPanel = new System.Windows.Forms.Panel();
-            this.mapOpenGlControl = new Tao.Platform.Windows.SimpleOpenGlControl();
+            this.mapOpenGlControl = new OpenTK.GLControl.GLControl();
             this.movPictureBox = new System.Windows.Forms.PictureBox();
             this.label26 = new System.Windows.Forms.Label();
             this.buildTextureComboBox = new System.Windows.Forms.ComboBox();
@@ -495,7 +495,7 @@
             this.triggersListBox = new System.Windows.Forms.ListBox();
             this.eventPanel = new System.Windows.Forms.Panel();
             this.eventPictureBox = new System.Windows.Forms.PictureBox();
-            this.eventOpenGlControl = new Tao.Platform.Windows.SimpleOpenGlControl();
+            this.eventOpenGlControl = new OpenTK.GLControl.GLControl();
             this.rightClickPicture = new System.Windows.Forms.PictureBox();
             this.wheelClickPicture = new System.Windows.Forms.PictureBox();
             this.LeftClickPicture = new System.Windows.Forms.PictureBox();
@@ -3036,7 +3036,6 @@
             this.mapEditorTabPage.Size = new System.Drawing.Size(1185, 675);
             this.mapEditorTabPage.TabIndex = 2;
             this.mapEditorTabPage.Text = "Map Editor";
-            this.mapEditorTabPage.Enter += new System.EventHandler(this.mapEditorTabPage_Enter);
             // 
             // tableLayoutPanel3
             // 
@@ -3170,24 +3169,17 @@
             // 
             // mapOpenGlControl
             // 
-            this.mapOpenGlControl.AccumBits = ((byte)(0));
-            this.mapOpenGlControl.AutoCheckErrors = false;
-            this.mapOpenGlControl.AutoFinish = false;
-            this.mapOpenGlControl.AutoMakeCurrent = true;
-            this.mapOpenGlControl.AutoSwapBuffers = true;
             this.mapOpenGlControl.BackColor = System.Drawing.Color.Black;
-            this.mapOpenGlControl.ColorBits = ((byte)(32));
-            this.mapOpenGlControl.DepthBits = ((byte)(64));
             this.mapOpenGlControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapOpenGlControl.ForeColor = System.Drawing.Color.Black;
             this.mapOpenGlControl.Location = new System.Drawing.Point(0, 0);
             this.mapOpenGlControl.Name = "mapOpenGlControl";
             this.mapOpenGlControl.Size = new System.Drawing.Size(608, 608);
-            this.mapOpenGlControl.StencilBits = ((byte)(0));
             this.mapOpenGlControl.TabIndex = 2;
             this.mapOpenGlControl.Click += new System.EventHandler(this.mapOpenGlControl_Click);
             this.mapOpenGlControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.mapOpenGlControl_KeyUp);
             this.mapOpenGlControl.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.mapOpenGlControl_PreviewKeyDown);
+            this.mapOpenGlControl.Load += new System.EventHandler(this.mapOpenGlControl_Load);
             // 
             // movPictureBox
             // 
@@ -4930,7 +4922,6 @@
             this.eventEditorTabPage.Size = new System.Drawing.Size(1185, 675);
             this.eventEditorTabPage.TabIndex = 3;
             this.eventEditorTabPage.Text = "Event Editor";
-            this.eventEditorTabPage.Enter += new System.EventHandler(this.eventEditorTabPage_Enter);
             // 
             // locateCurrentEvFile
             // 
@@ -6783,21 +6774,14 @@
             // 
             // eventOpenGlControl
             // 
-            this.eventOpenGlControl.AccumBits = ((byte)(0));
-            this.eventOpenGlControl.AutoCheckErrors = false;
-            this.eventOpenGlControl.AutoFinish = false;
-            this.eventOpenGlControl.AutoMakeCurrent = true;
-            this.eventOpenGlControl.AutoSwapBuffers = true;
             this.eventOpenGlControl.BackColor = System.Drawing.Color.Black;
-            this.eventOpenGlControl.ColorBits = ((byte)(32));
-            this.eventOpenGlControl.DepthBits = ((byte)(64));
             this.eventOpenGlControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.eventOpenGlControl.ForeColor = System.Drawing.Color.Black;
             this.eventOpenGlControl.Location = new System.Drawing.Point(0, 0);
             this.eventOpenGlControl.Name = "eventOpenGlControl";
             this.eventOpenGlControl.Size = new System.Drawing.Size(544, 544);
-            this.eventOpenGlControl.StencilBits = ((byte)(0));
             this.eventOpenGlControl.TabIndex = 2;
+            this.eventOpenGlControl.Load += new System.EventHandler(this.eventOpenGlControl_Load);
             // 
             // rightClickPicture
             // 
@@ -11288,10 +11272,10 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem romToolboxToolStripMenuItem;
         private System.Windows.Forms.Panel mapRenderPanel;
-        private Tao.Platform.Windows.SimpleOpenGlControl mapOpenGlControl;
+        private OpenTK.GLControl.GLControl mapOpenGlControl;
         private System.Windows.Forms.PictureBox movPictureBox;
         private System.Windows.Forms.Panel eventPanel;
-        private Tao.Platform.Windows.SimpleOpenGlControl eventOpenGlControl;
+        private OpenTK.GLControl.GLControl eventOpenGlControl;
         private System.Windows.Forms.PictureBox eventPictureBox;
         private System.Windows.Forms.TabControl eventsTabControl;
         private System.Windows.Forms.TabPage signsTabPage;

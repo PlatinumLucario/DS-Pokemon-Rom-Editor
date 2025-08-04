@@ -32,7 +32,7 @@
             this.textureComboBox = new System.Windows.Forms.ComboBox();
             this.importButton = new System.Windows.Forms.Button();
             this.exportButton = new System.Windows.Forms.Button();
-            this.buildingOpenGLControl = new Tao.Platform.Windows.SimpleOpenGlControl();
+            this.buildingOpenGLControl = new OpenTK.GLControl.GLControl();
             this.interiorCheckBox = new System.Windows.Forms.CheckBox();
             this.buildingEditorBldListBox = new System.Windows.Forms.ListBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -83,19 +83,12 @@
             // 
             // buildingOpenGLControl
             // 
-            this.buildingOpenGLControl.AccumBits = ((byte)(0));
-            this.buildingOpenGLControl.AutoCheckErrors = false;
-            this.buildingOpenGLControl.AutoFinish = false;
-            this.buildingOpenGLControl.AutoMakeCurrent = true;
-            this.buildingOpenGLControl.AutoSwapBuffers = true;
             this.buildingOpenGLControl.BackColor = System.Drawing.Color.Black;
-            this.buildingOpenGLControl.ColorBits = ((byte)(32));
-            this.buildingOpenGLControl.DepthBits = ((byte)(24));
             this.buildingOpenGLControl.Location = new System.Drawing.Point(3, 7);
             this.buildingOpenGLControl.Name = "buildingOpenGLControl";
             this.buildingOpenGLControl.Size = new System.Drawing.Size(500, 500);
-            this.buildingOpenGLControl.StencilBits = ((byte)(0));
             this.buildingOpenGLControl.TabIndex = 21;
+            this.buildingOpenGLControl.Load += new System.EventHandler(this.buildingOpenGLControl_Load);
             this.buildingOpenGLControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.buildingOpenGLControl_KeyUp);
             this.buildingOpenGLControl.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.buildingOpenGLControl_PreviewKeyDown);
             // 
@@ -182,7 +175,7 @@
         private System.Windows.Forms.ComboBox textureComboBox;
         private System.Windows.Forms.Button importButton;
         private System.Windows.Forms.Button exportButton;
-        private Tao.Platform.Windows.SimpleOpenGlControl buildingOpenGLControl;
+        private OpenTK.GLControl.GLControl buildingOpenGLControl;
         private System.Windows.Forms.CheckBox interiorCheckBox;
         private System.Windows.Forms.ListBox buildingEditorBldListBox;
         private System.Windows.Forms.Panel panel1;

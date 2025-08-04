@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using OpenTK;
+using OpenTK.Mathematics;
 
 namespace SM64DSe {
     static class Helper {

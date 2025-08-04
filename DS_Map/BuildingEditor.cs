@@ -5,7 +5,8 @@ using System.Windows.Forms;
 using LibNDSFormats.NSBMD;
 using LibNDSFormats.NSBTX;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using Tao.OpenGl;
+using OpenTK.Graphics.OpenGL;
+
 using static DSPRE.RomInfo;
 
 namespace DSPRE {
@@ -40,11 +41,6 @@ namespace DSPRE {
             InitializeComponent();
             rom = romInfo;
 
-            buildingOpenGLControl.InitializeContexts();
-            buildingOpenGLControl.MakeCurrent();
-            buildingOpenGLControl.MouseWheel += new MouseEventHandler(buildingOpenGLControl_MouseWheel);
-            Gl.glEnable(Gl.GL_TEXTURE_2D);
-
             if (RomInfo.gameFamily == GameFamilies.HGSS) {
                 interiorCheckBox.Enabled = true;
             }
@@ -52,9 +48,7 @@ namespace DSPRE {
             Helpers.DisableHandlers();
             FillListBox(false);
             FillTexturesBox();
-            textureComboBox.SelectedIndex = 0;
             Helpers.EnableHandlers();
-            buildingEditorBldListBox.SelectedIndex = 0;
         }
 
         #region Subroutines
@@ -113,45 +107,53 @@ namespace DSPRE {
 
             /* Render the building model */
             renderer.Model = currentNSBMD.models[0];
-            Gl.glScalef(currentNSBMD.models[0].modelScale / 32, currentNSBMD.models[0].modelScale / 32, currentNSBMD.models[0].modelScale / 32);
+            GL.Scale(currentNSBMD.models[0].modelScale / 32, currentNSBMD.models[0].modelScale / 32, currentNSBMD.models[0].modelScale / 32);
             renderer.RenderModel("", bta, aniframeS, aniframeS, aniframeS, aniframeS, aniframeS, bca, false, -1, 0.0f, 0.0f, dist, elev, ang, true, btp, currentNSBMD);
         }
+        private void MatrixPerspective(float fovY, float aspect, float zNear, float zFar)
+        {
+            const double pi = 3.1415926535897932384626433832795;
+            double fW, fH;
+            fH = Math.Tan(fovY / 360 * pi) * zNear;
+            fW = fH * aspect;
+            GL.Frustum(-fW, fW, -fH, fH, zNear, zFar);
+        }
         private void SetupRenderer(float ang, float dist, float elev, float perspective) {
-            Gl.glEnable(Gl.GL_RESCALE_NORMAL);
-            Gl.glEnable(Gl.GL_COLOR_MATERIAL);
-            Gl.glEnable(Gl.GL_DEPTH_TEST);
-            Gl.glEnable(Gl.GL_NORMALIZE);
-            Gl.glDisable(Gl.GL_CULL_FACE);
-            Gl.glFrontFace(Gl.GL_CCW);
-            Gl.glClearDepth(1);
-            Gl.glEnable(Gl.GL_ALPHA_TEST);
-            Gl.glBlendFunc(Gl.GL_SRC_ALPHA, Gl.GL_ONE_MINUS_SRC_ALPHA);
-            Gl.glEnable(Gl.GL_BLEND);
-            Gl.glAlphaFunc(Gl.GL_GREATER, 0f);
-            Gl.glClearColor(51f / 255f, 51f / 255f, 51f / 255f, 1f);
+            GL.Enable(EnableCap.RescaleNormal);
+            GL.Enable(EnableCap.ColorMaterial);
+            GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Normalize);
+            GL.Disable(EnableCap.CullFace);
+            GL.FrontFace(FrontFaceDirection.Ccw);
+            GL.ClearDepth(1d);
+            GL.Enable(EnableCap.AlphaTest);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            GL.Enable(EnableCap.Blend);
+            GL.AlphaFunc(AlphaFunction.Greater, 0f);
+            GL.ClearColor(51f / 255f, 51f / 255f, 51f / 255f, 1f);
             float aspect;
-            Gl.glViewport(0, 0, buildingOpenGLControl.Width, buildingOpenGLControl.Height);
+            GL.Viewport(0, 0, buildingOpenGLControl.Width, buildingOpenGLControl.Height);
             aspect = buildingOpenGLControl.Width / buildingOpenGLControl.Height;//(vp[2] - vp[0]) / (vp[3] - vp[1]);
-            Gl.glMatrixMode(Gl.GL_PROJECTION);
-            Gl.glLoadIdentity();
-            Glu.gluPerspective(perspective, aspect, 0.2f, 500.0f);//0.02f, 32.0f);
-            Gl.glTranslatef(0, 0, -dist);
-            Gl.glRotatef(elev, 1, 0, 0);
-            Gl.glRotatef(ang, 0, 1, 0);
-            Gl.glMatrixMode(Gl.GL_MODELVIEW);
-            Gl.glLoadIdentity();
-            Gl.glTranslatef(0, 0, -dist);
-            Gl.glRotatef(elev, 1, 0, 0);
-            Gl.glRotatef(-ang, 0, 1, 0);
-            Gl.glLightfv(Gl.GL_LIGHT0, Gl.GL_POSITION, new float[] { 1, 1, 1, 0 });
-            Gl.glLightfv(Gl.GL_LIGHT1, Gl.GL_POSITION, new float[] { 1, 1, 1, 0 });
-            Gl.glLightfv(Gl.GL_LIGHT2, Gl.GL_POSITION, new float[] { 1, 1, 1, 0 });
-            Gl.glLightfv(Gl.GL_LIGHT3, Gl.GL_POSITION, new float[] { 1, 1, 1, 0 });
-            Gl.glLoadIdentity();
-            Gl.glBindTexture(Gl.GL_TEXTURE_2D, 0);
-            Gl.glColor3f(1.0f, 1.0f, 1.0f);
-            Gl.glDepthMask(Gl.GL_TRUE);
-            Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+            MatrixPerspective(perspective, aspect, 0.2f, 500.0f);//0.02f, 32.0f);
+            GL.Translate(0, 0, -dist);
+            GL.Rotate(elev, 1, 0, 0);
+            GL.Rotate(ang, 0, 1, 0);
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
+            GL.Translate(0, 0, -dist);
+            GL.Rotate(elev, 1, 0, 0);
+            GL.Rotate(-ang, 0, 1, 0);
+            GL.Light(LightName.Light0, LightParameter.Position, new float[] { 1, 1, 1, 0 });
+            GL.Light(LightName.Light1, LightParameter.Position, new float[] { 1, 1, 1, 0 });
+            GL.Light(LightName.Light2, LightParameter.Position, new float[] { 1, 1, 1, 0 });
+            GL.Light(LightName.Light3, LightParameter.Position, new float[] { 1, 1, 1, 0 });
+            GL.LoadIdentity();
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+            GL.Color3(1.0f, 1.0f, 1.0f);
+            GL.DepthMask(true);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         }
         #endregion
 
@@ -221,6 +223,26 @@ namespace DSPRE {
             Helpers.EnableHandlers();
 
             buildingEditorBldListBox.SelectedIndex = 0;
+        }
+        private void buildingOpenGLControl_Load(object sender, EventArgs e) {
+            buildingOpenGLControl.MakeCurrent();
+            buildingOpenGLControl.MouseWheel += new MouseEventHandler(buildingOpenGLControl_MouseWheel);
+            GL.Enable(EnableCap.Texture2D);
+
+            buildingEditorBldListBox.SelectedIndex = 0;
+            textureComboBox.SelectedIndex = 0;
+
+            buildingOpenGLControl.SwapBuffers();
+
+            buildingOpenGLControl.Paint += buildingOpenGLControl_Paint;
+        }
+        private void buildingOpenGLControl_Paint(object sender, PaintEventArgs e) {
+            if (buildingOpenGLControl.Disposing) {
+                buildingOpenGLControl.Paint -= buildingOpenGLControl_Paint;
+            }
+            else {
+                buildingOpenGLControl.SwapBuffers();
+            }
         }
         private void textureComboBox_SelectedIndexChanged(object sender, EventArgs e) {
             if (Helpers.HandlersDisabled) {

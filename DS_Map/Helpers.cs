@@ -5,7 +5,6 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using Tao.OpenGl;
 using LibNDSFormats.NSBMD;
 using LibNDSFormats.NSBTX;
 using DSPRE.ROMFiles;
@@ -13,8 +12,8 @@ using Images;
 using Ekona.Images;
 using ScintillaNET;
 using ScintillaNET.Utils;
-using Tao.Platform.Windows;
 using NSMBe4.DSFileSystem;
+using OpenTK.Graphics.OpenGL;
 
 namespace DSPRE {
     public static class Helpers {
@@ -123,42 +122,50 @@ namespace DSPRE {
             MW_LoadModelTextures(building.NSBMDFile, Filesystem.buildingTextures, fileID);
         }
 
+        private static void MatrixPerspective(float fovY, float aspect, float zNear, float zFar)
+        {
+            const double pi = 3.1415926535897932384626433832795;
+            double fW, fH;
+            fH = Math.Tan(fovY / 360 * pi) * zNear;
+            fW = fH * aspect;
+            GL.Frustum(-fW, fW, -fH, fH, zNear, zFar);
+        }
         public static void SetupRenderer(float ang, float dist, float elev, float perspective, int width, int height) {
             //TODO: improve this
-            Gl.glEnable(Gl.GL_RESCALE_NORMAL);
-            Gl.glEnable(Gl.GL_COLOR_MATERIAL);
-            Gl.glEnable(Gl.GL_DEPTH_TEST);
-            Gl.glEnable(Gl.GL_NORMALIZE);
-            Gl.glDisable(Gl.GL_CULL_FACE);
-            Gl.glFrontFace(Gl.GL_CCW);
-            Gl.glClearDepth(1);
-            Gl.glEnable(Gl.GL_ALPHA_TEST);
-            Gl.glBlendFunc(Gl.GL_SRC_ALPHA, Gl.GL_ONE_MINUS_SRC_ALPHA);
-            Gl.glEnable(Gl.GL_BLEND);
-            Gl.glAlphaFunc(Gl.GL_GREATER, 0f);
-            Gl.glClearColor(51f / 255f, 51f / 255f, 51f / 255f, 1f);
-            Gl.glViewport(0, 0, width, height);
+            GL.Enable(EnableCap.RescaleNormal);
+            GL.Enable(EnableCap.ColorMaterial);
+            GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Normalize);
+            GL.Disable(EnableCap.CullFace);
+            GL.FrontFace(FrontFaceDirection.Ccw);
+            GL.ClearDepth(1d);
+            GL.Enable(EnableCap.AlphaTest);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            GL.Enable(EnableCap.Blend);
+            GL.AlphaFunc(AlphaFunction.Greater, 0f);
+            GL.ClearColor(51f / 255f, 51f / 255f, 51f / 255f, 1f);
+            GL.Viewport(0, 0, width, height);
             float aspect = width / height; //(vp[2] - vp[0]) / (vp[3] - vp[1]);
-            Gl.glMatrixMode(Gl.GL_PROJECTION);
-            Gl.glLoadIdentity();
-            Glu.gluPerspective(perspective, aspect, 0.2f, 500.0f); //0.02f, 32.0f);
-            Gl.glTranslatef(0, 0, -dist);
-            Gl.glRotatef(elev, 1, 0, 0);
-            Gl.glRotatef(ang, 0, 1, 0);
-            Gl.glMatrixMode(Gl.GL_MODELVIEW);
-            Gl.glLoadIdentity();
-            Gl.glTranslatef(0, 0, -dist);
-            Gl.glRotatef(elev, 1, 0, 0);
-            Gl.glRotatef(-ang, 0, 1, 0);
-            Gl.glLightfv(Gl.GL_LIGHT0, Gl.GL_POSITION, new float[] { 1, 1, 1, 0 });
-            Gl.glLightfv(Gl.GL_LIGHT1, Gl.GL_POSITION, new float[] { 1, 1, 1, 0 });
-            Gl.glLightfv(Gl.GL_LIGHT2, Gl.GL_POSITION, new float[] { 1, 1, 1, 0 });
-            Gl.glLightfv(Gl.GL_LIGHT3, Gl.GL_POSITION, new float[] { 1, 1, 1, 0 });
-            Gl.glLoadIdentity();
-            Gl.glBindTexture(Gl.GL_TEXTURE_2D, 0);
-            Gl.glColor3f(1.0f, 1.0f, 1.0f);
-            Gl.glDepthMask(Gl.GL_TRUE);
-            Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+            MatrixPerspective(perspective, aspect, 0.2f, 500.0f); //0.02f, 32.0f);
+            GL.Translate(0, 0, -dist);
+            GL.Rotate(elev, 1, 0, 0);
+            GL.Rotate(ang, 0, 1, 0);
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
+            GL.Translate(0, 0, -dist);
+            GL.Rotate(elev, 1, 0, 0);
+            GL.Rotate(-ang, 0, 1, 0);
+            GL.Light(LightName.Light0, LightParameter.Position, new float[] { 1, 1, 1, 0 });
+            GL.Light(LightName.Light1, LightParameter.Position, new float[] { 1, 1, 1, 0 });
+            GL.Light(LightName.Light2, LightParameter.Position, new float[] { 1, 1, 1, 0 });
+            GL.Light(LightName.Light3, LightParameter.Position, new float[] { 1, 1, 1, 0 });
+            GL.LoadIdentity();
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+            GL.Color3(1.0f, 1.0f, 1.0f);
+            GL.DepthMask(true);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         }
 
         public static void RenderMap(ref MapFile mapFile, int width, int height, float ang, float dist, float elev, float perspective, bool mapTexturesON = true, bool buildingTexturesON = true) {
@@ -180,13 +187,13 @@ namespace DSPRE {
 
             // int scale = 64;
             float scale = 0.015625f;
-            Gl.glScalef(mapRenderer.Model.modelScale * scale, mapRenderer.Model.modelScale * scale, mapRenderer.Model.modelScale * scale);
+            GL.Scale(mapRenderer.Model.modelScale * scale, mapRenderer.Model.modelScale * scale, mapRenderer.Model.modelScale * scale);
 
             /* Determine if map textures must be rendered */
             if (mapTexturesON) {
-                Gl.glEnable(Gl.GL_TEXTURE_2D);
+                GL.Enable(EnableCap.Texture2D);
             } else {
-                Gl.glDisable(Gl.GL_TEXTURE_2D);
+                GL.Disable(EnableCap.Texture2D);
             }
 
             // Render map model
@@ -197,9 +204,9 @@ namespace DSPRE {
             }
 
             if (buildingTexturesON) {
-                Gl.glEnable(Gl.GL_TEXTURE_2D);
+                GL.Enable(EnableCap.Texture2D);
             } else {
-                Gl.glDisable(Gl.GL_TEXTURE_2D);
+                GL.Disable(EnableCap.Texture2D);
             }
 
             for (int i = 0; i < mapFile.buildings.Count; i++) {
@@ -218,7 +225,7 @@ namespace DSPRE {
         public static Bitmap GrabMapScreenshot(int width, int height) {
             Bitmap bmp = new Bitmap(width, height);
             System.Drawing.Imaging.BitmapData data = bmp.LockBits(new Rectangle(0, 0, width, height), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            Gl.glReadPixels(0, 0, width, height, Gl.GL_BGR, Gl.GL_UNSIGNED_BYTE, data.Scan0);
+            GL.ReadPixels(0, 0, width, height, PixelFormat.Bgr, PixelType.UnsignedByte, data.Scan0);
             bmp.UnlockBits(data);
             bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
             return bmp;
@@ -232,11 +239,11 @@ namespace DSPRE {
             float scaleFactor = building.NSBMDFile.models[0].modelScale / 1024;
             float translateFactor = 256 / building.NSBMDFile.models[0].modelScale;
 
-            Gl.glScalef(scaleFactor * building.width, scaleFactor * building.height, scaleFactor * building.length);
-            Gl.glTranslatef(fullXcoord * translateFactor / building.width, fullYcoord * translateFactor / building.height, fullZcoord * translateFactor / building.length);
-            Gl.glRotatef(Building.U16ToDeg(building.xRotation), 1, 0, 0);
-            Gl.glRotatef(Building.U16ToDeg(building.yRotation), 0, 1, 0);
-            Gl.glRotatef(Building.U16ToDeg(building.zRotation), 0, 0, 1);
+            GL.Scale(scaleFactor * building.width, scaleFactor * building.height, scaleFactor * building.length);
+            GL.Translate(fullXcoord * translateFactor / building.width, fullYcoord * translateFactor / building.height, fullZcoord * translateFactor / building.length);
+            GL.Rotate(Building.U16ToDeg(building.xRotation), 1, 0, 0);
+            GL.Rotate(Building.U16ToDeg(building.yRotation), 0, 1, 0);
+            GL.Rotate(Building.U16ToDeg(building.zRotation), 0, 0, 1);
         }
 
         public static Image GetPokePic(int species, int w, int h, PaletteBase paletteBase, ImageBase imageBase, SpriteBase spriteBase) {

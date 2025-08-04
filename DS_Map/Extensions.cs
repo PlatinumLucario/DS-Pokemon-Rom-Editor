@@ -8,7 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.ComponentModel;
-using Tao.Platform.Windows;
+using OpenTK.GLControl;
+//using Tao.Platform.Windows;
 
 namespace DSPRE {
     public static class Extensions {
@@ -151,7 +152,7 @@ namespace DSPRE {
         }
     }
 
-    public class SimpleOpenGlControl2 : SimpleOpenGlControl {
+    public class SimpleOpenGlControl2 : GLControl {
         private bool designMode;
 
         public SimpleOpenGlControl2() : base() {

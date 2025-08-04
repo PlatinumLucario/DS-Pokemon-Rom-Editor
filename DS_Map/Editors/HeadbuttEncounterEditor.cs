@@ -66,7 +66,6 @@ namespace DSPRE.Editors {
             height = openGlPictureBox.Height;
 
             openGlControl = new SimpleOpenGlControl2();
-            openGlControl.InitializeContexts();
             openGlControl.Width = width;
             openGlControl.Height = height;
             openGlControl.Invalidate();
